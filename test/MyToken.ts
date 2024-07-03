@@ -16,6 +16,8 @@ describe("My Token", function () {
         it('should transfer to other account and debit from owner', async function () {
             const { myToken, firstAccount, otherAccount } = await loadFixture(deployContractsFixture);
 
+            const test = 0;
+
             const amountTranferred = 15;
 
             await myToken.transfer(otherAccount, amountTranferred);
@@ -25,6 +27,10 @@ describe("My Token", function () {
             expect(Number(await myToken.balanceOf(otherAccount)) / 10 ** 18 == amountTranferred &&
                 Number(await myToken.balanceOf(firstAccount)) / 10 ** 18 == ownerBalance - amountTranferred);
         });
+    });
+
+    describe('Estimating gas for check address', function () {
+
     });
 
 });

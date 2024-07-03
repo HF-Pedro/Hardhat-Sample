@@ -23,12 +23,11 @@ contract TransactionContract{
 
     function deposit() public payable {
 
+        accountToAmountDepositated[msg.sender] += msg.value;
+
         bool operationResult = IERC20(myTokenAddress).transferFrom(msg.sender, address(this), msg.value);
 
         require(operationResult, 'Operation reverted with a transfer error');
-
-        accountToAmountDepositated[msg.sender] += msg.value;
-
 
     }
 
@@ -40,6 +39,8 @@ contract TransactionContract{
 
         require(accountToAmountDepositated[msg.sender] >= _amount, 'Insufficient funds to complete the operation');
 
+        accountToAmountDepositated[msg.sender] -= _amount;
+
         uint256 ammountWithTaxDiscount = _amount * 90 / 100;
 
         uint256 tax = _amount * 10 / 100;
@@ -49,8 +50,6 @@ contract TransactionContract{
         bool taxResult = IERC20(myTokenAddress).transfer(taxContractAddress, tax);
 
         require(withdrawResult && taxResult, 'Operation reverted with a transfer error');
-
-        accountToAmountDepositated[msg.sender] -= _amount;
 
         emit Withdrawl(ammountWithTaxDiscount, tax);
 
