@@ -16,7 +16,6 @@ describe("My Token", function () {
         it('should transfer to other account and debit from owner', async function () {
             const { myToken, firstAccount, otherAccount } = await loadFixture(deployContractsFixture);
 
-            const test = 0;
 
             const amountTranferred = 15;
 
